@@ -1,0 +1,41 @@
+
+header > nav > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+ #headerFirst{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+} 
+#headerMenu {
+    align-self: flex-end;
+}
+
+nav > div>div{
+justify-content: right;
+}
+li{
+    padding: 0 20px 0 20px;
+    font-size: 30px;
+}   
+  
+
+header a{
+    text-decoration: none;
+    /* color: white; */
+
+}
+header a:hover{
+   border-bottom: 1px solid;
+
+}
+
+.logo {
+    width: 100px;
+    border-radius: 10px;
+    padding: 5px;
+}

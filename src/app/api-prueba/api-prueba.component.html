@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row"> 
+    <div class="col my-2"><h5>List of users</h5></div>  
+      @for (item of users; track $index) {
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{item.username}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"> <a href="#" class="card-link">{{item.user_email}}</a>
+            </h6>
+            <p class="card-text">Country: {{item.user_country}}, city: {{item.user_city}}</p>
+
+            <h6>Age: {{item.user_age}}, gender: {{item.user_gender}}</h6>
+          </div>
+        </div>
+      </div>
+
+      }
+    </div>
+  </div>

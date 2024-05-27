@@ -1,0 +1,93 @@
+<div class="container ">
+    <div class="row">
+        <div class="col-6">
+            <div class="jumbotron">
+                <h1 class="display-4 text-center">Sign Up!</h1>
+                <hr class="my-4">
+                <p class="text-center">Sign up for enjoy this app!</p>
+            </div>
+
+            <form [formGroup]="formSignIn" (ngSubmit)="send()">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input [ngClass]="{'is-invalid': hasErrors('username','required') }" type="text"
+                        class="form-control" id="username" placeholder="username . . . " formControlName="username">
+                    <div class="text-danger" *ngIf="hasErrors('username', 'required')">Username required</div>
+                    <div class="text-danger" *ngIf="usernameExists">
+                        Username exists!
+                    </div>
+
+                    <div formGroupName="passwords">
+                        <label for="pass1">Password</label>
+                        <input [ngClass]="{'is-invalid': hasErrors('pass1','required')  }" type="password"
+                            class="form-control" id="pass1" placeholder=".......... " formControlName="pass1">
+                        <div class="text-danger"
+                            *ngIf="formSignIn.get('passwords.pass1')?.hasError('required') && formSignIn.get('passwords.pass1')?.touched">
+                            Password required</div>
+                        <div class="text-danger"
+                            *ngIf="formSignIn.get('passwords.pass1')?.invalid && formSignIn.get('passwords.pass1')?.touched">
+                            Password short</div>
+                        <label for="pass2">Repeat password</label>
+                        <input [ngClass]="{'is-invalid': hasErrors('pass2','required')  }" type="password"
+                            class="form-control" id="pass2" placeholder=".......... " formControlName="pass2">
+                        <div class="text-danger"
+                            *ngIf="formSignIn.get('passwords.pass2')?.hasError('required') && formSignIn.get('passwords.pass2')?.touched">
+                            Password required</div>
+                        <div class="text-danger"
+                            *ngIf="formSignIn.get('passwords.pass2')?.invalid && formSignIn.get('passwords.pass2')?.touched">
+                            Password short</div>
+
+                        <div class="text-danger"
+                            *ngIf="formSignIn.get('passwords')?.errors?.['mismatch'] && formSignIn.get('passwords.pass2')?.touched">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                    <label for="formControlInput3">Email</label>
+                    <input [ngClass]="{'is-invalid': hasErrors('email','required') || hasErrors('email','email') }"
+                        type="text" class="form-control" id="email" placeholder="example@abc.com "
+                        formControlName="email">
+                    <div class="text-danger" *ngIf="hasErrors('email', 'required')">Email required</div>
+                    <div class="text-danger" *ngIf="hasErrors('email', 'email')">Incorrect email</div>
+                    <label for="country">Country</label>
+                    <input [ngClass]="" type="text" class="form-control" id="country"
+                        placeholder="enter your country. . . " formControlName="country">
+                    <label for="city">City</label>
+                    <input [ngClass]="" type="text" class="form-control" id="city" placeholder="enter your city. . . "
+                        formControlName="city">
+                    <div class="row">
+                        <label for="gender">Gender</label><br>
+                        <div class="col-1">
+                            <input [ngClass]="" class="form-check-input" type="radio" name="gender" id="male"
+                                value="male" formControlName="gender" checked>
+                            <label class="form-check-label" for="male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="female"
+                                formControlName="gender">
+                            <label class="form-check-label" for="female">Female</label>
+
+                        </div>
+                        <div class="col-1">
+
+                            <input class="form-check-input" type="radio" name="gender" id="other" value="other"
+                                formControlName="gender">
+                            <label class="form-check-label" for="other">
+                                Other ... </label>
+                        </div>
+                    </div>
+                    <div class="form-group my-3">
+
+                        <label for="age">Age</label>
+                        <input [ngClass]="" type="number" class="form-control" id="age"
+                            placeholder="enter your age. . . " formControlName="age">
+                    </div>
+                    <div class="form-group my-3">
+                        <button type="submit" class="btn btn-primary mb-2">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

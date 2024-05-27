@@ -1,0 +1,44 @@
+<div>
+  <div class="jumbotron">
+    <h1 class="display-4">Contact</h1>
+    <hr class="my-4">
+    <p>You can send a message. We will contact you as soon as possible.</p>
+  </div>
+  <form [formGroup]="form1" (ngSubmit)="send()">
+    <div class="form-group">
+      <label for="formControlInput1">Email address</label>
+      <input [ngClass]="{'is-invalid': hasErrors('email','required') ||  hasErrors('email','email')} " type="email" class="form-control" id="email"
+        placeholder="name@example.com" formControlName="email">
+      <div class="text-danger" *ngIf="hasErrors('email', 'email')">Not valid email</div>
+
+      <div class="text-danger" *ngIf="hasErrors('email', 'required')">Email required</div>
+    </div>
+    <div class="form-group">
+      <label for="formControlInput2">Subject</label>
+      <input [ngClass]="{'is-invalid': hasErrors('subject','required')}" type="text" class="form-control" id="subject"
+        placeholder=". . . " formControlName="subject">
+      <div class="text-danger" *ngIf="hasErrors('subject', 'required')">Subject required</div>
+
+    </div>
+
+    <div class="form-group">
+      <label for="formControlTextarea1">Your message</label>
+      <textarea [ngClass]="{'is-invalid': hasErrors('message','required')}" class="form-control" id="message" rows="3"
+        formControlName="message">
+          </textarea>
+      <div class="text-danger" *ngIf="hasErrors('message', 'required')">Message required</div>
+    </div>
+    <div class="form-group my-3">
+      <button type="submit" class="btn btn-primary mb-2">Send</button>
+    </div>
+  </form>
+
+</div>
+@if(isValid){
+  <div>
+    <h4>{{form1.value.email}}</h4>
+    <h5>{{form1.value.subject}}</h5>
+    <p>{{form1.value.message}}</p>
+  </div>
+}
+

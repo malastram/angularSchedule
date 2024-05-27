@@ -1,0 +1,32 @@
+#about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(202, 194, 194) !important;
+    padding: 50px;
+    margin-top: 15px;
+
+}
+
+img {
+    width: 30%;
+    margin: 25px 0 50px 0;
+}
+
+i {
+    font-size: 70px;
+    color: red;
+}
+
+#presentation,
+#tecnologies {
+    margin-bottom: 50px;
+    background-color: rgb(212, 204, 204);
+    /* border: 2px solid black; */
+    border-radius: 20px;
+    padding: 40px;
+    width: 80%;
+    align-self: center;
+
+}

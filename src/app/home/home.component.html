@@ -1,0 +1,18 @@
+<div class="container">    
+    <div class="row">
+        <div class="col-4"><app-api-prueba/></div>       
+       @if(this.isLoginOk)
+       {
+        <div class="col 6">
+            <input type="button" (click)="logout()">
+            <app-schedule/>
+        </div>
+        }
+        @else {
+            <div class="col 6">
+        <h4>You must login for view the content</h4> <p>{{isLoginOk}}</p>
+    </div>
+       }
+    
+      
+    </div>
