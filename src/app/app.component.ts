@@ -12,7 +12,7 @@ import { HeaderComponent } from './header/header.component';
 })
 export class AppComponent {
   title = 'appAngular';
-  mensaje : string = 'Mensaje desde el general al 1er padre';
+  username : string = '';
   fecha : Date = new Date();
 
  

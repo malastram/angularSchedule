@@ -30,7 +30,16 @@ export class LoginComponent {
         // Llama a la función proporcionada después de un registro exitoso
        if(response.length>0){
   this.regenerarHome.loadUsers();
-        this._userService.isLogged = true;
+        localStorage.setItem('login','true');
+        localStorage.setItem('user',this.formLogIn.value['username']);
+        localStorage.setItem('id',response[0]['user_id']);
+
+         localStorage.getItem('login') ? this._userService.isLogged = true : this._userService.isLogged = false;
+
+        this._userService.setUsername(response[0]['username']);
+        this._userService.setIdName(response[0]['user_id']);  //new
+
+
         console.log(response);
         this.router.navigate(['']);
        }else{

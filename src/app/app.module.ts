@@ -38,12 +38,13 @@ import { ScheduleComponent } from './schedule/schedule.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    FullCalendarModule, // Agrega FullCalendarModule a los imports
+    FullCalendarModule,
     BrowserModule
+    
     
 
   ],
-  providers: [ApiUserService, HttpClient, provideHttpClient()],
+  providers: [ApiUserService, HttpClient, provideHttpClient(), HomeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

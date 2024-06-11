@@ -1,1 +1,41 @@
-<full-calendar [options]="calendarOptions"></full-calendar>
+
+        <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+
+ 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{dateSelected}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formSendEvent" (ngSubmit)="send()">
+            <div class="form-group">
+              <input  [ngClass]="" type="hidden" id="id" formControlName="id">
+              <input  [ngClass]="" type="hidden" id="date" formControlName="date">
+                           <label for="Title">Title</label>
+                <input [ngClass]="{'is-invalid': hasErrors('title','required') }" type="text" class="form-control"
+                    id="title" placeholder="Event's title" formControlName="title">
+                    <label for="description">Description</label>
+                    <input [ngClass]="" type="input" class="form-control"
+                        id="description" placeholder=".......... " formControlName="description">
+                        <label for="priority">Priority</label>
+                        <input type="range" class="form-range" min="1" max="5" step="1" id="priority" [(ngModel)]="rangeValue" formControlName="priority" (input)="updateValue($event)">
+                        <span class="range-value" [ngStyle]="{'left.px': rangeValuePosition}" id="rangeValueDisplay">{{ rangeValue }}</span>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+                </div>
+                
+
+        </form>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
