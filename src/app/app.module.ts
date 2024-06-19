@@ -17,6 +17,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { FullCalendarModule } from '@fullcalendar/angular'; // Importa el módulo de FullCalendar
 import { ScheduleComponent } from './schedule/schedule.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EventsListComponent } from './events-list/events-list.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     RegisterComponent,
     LoginComponent,
     ApiPruebaComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    EventsListComponent
     
     
    

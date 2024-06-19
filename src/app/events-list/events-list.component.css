@@ -1,0 +1,21 @@
+.priority-1 {
+    background-color: #ff9999; 
+      border-color: #ff9999;
+   }
+   .priority-2 {
+     background-color: #ffcc99; 
+       border-color: #ffcc99;
+    }
+    .priority-3 {
+     background-color: #ff4f99; 
+       border-color: #ffff99;
+    }
+    .priority-4 {
+     background-color: #caf3a9; 
+       border-color: #ccff99;
+    }
+    .priority-5 {
+     background-color: #99ceff; 
+       border-color: #99ccff;
+    }
+   

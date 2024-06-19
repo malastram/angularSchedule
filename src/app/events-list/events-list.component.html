@@ -1,0 +1,8 @@
+<h2 class="text-center">Events list priority</h2>
+
+  <ul class="list-group">
+@for(item of events; track item['date']){
+ <li class=" m-2 list-group-item priority-{{item['priority']}} text-center"><h5>PRIORITY: {{item['priority']}}, on {{item['start'] | date}}</h5><hr><h4>{{item['title']}}</h4>
+   <h5>{{item['description']}}</h5></li>
+}
+ </ul>

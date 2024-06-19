@@ -1,5 +1,15 @@
 
+<button type="button" class="btn btn-success m-2" (click)="changeView('cal')">Calendar</button>
+
+<button type="button" class="btn btn-secondary" (click)="changeView('ev')">Priority events list</button>
+       
+       @if(modView == false){
         <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+       }
+
+       @if(modView == true){
+        <app-events-list [events]="arrayEvents"></app-events-list>
+       }
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -43,19 +53,19 @@
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{dateSelected}}</h5>
+      <div class="modal-header priority-{{priorityEvent}}">
+        <h5 class="modal-title" id="staticBackdropLabel">{{dateEvent | date}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <form [formGroup]="formDelete" (ngSubmit)="delete()">
           <div class="form-group">
             <input  [ngClass]="" type="hidden" id="id" formControlName="id" value={{idEvent}}>
             <!-- <input  [ngClass]="" type="hidden" id="date" formControlName="date"> -->
-            <p>{{idEvent}}: {{titleEvent}}</p>
-                       <h4>{{dateSelected}}</h4>
+            <h3>{{titleEvent}}</h3>
+            <p>{{descriptionEvent}}</p>
+                       <h4>{{dateSelected | date}}</h4>
                        <h5>Priority: {{priorityEvent}}</h5>
-                       <h5>Delete  {{idEvent}}?</h5>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

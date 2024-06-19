@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, Input, output } from '@angular/core';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -24,6 +24,9 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   @ViewChild('fullcalendar') fullcalendar!: FullCalendarComponent;
 idEvent: string ='';
 titleEvent : string ='';
+descriptionEvent : string = '';
+dateEvent : Date  | null = null;
+
 priorityEvent : string ='';
   formSendEvent: FormGroup;
   formDelete : FormGroup;
@@ -36,8 +39,10 @@ priorityEvent : string ='';
   arrayEvents: Event[] = [];
   del: Boolean =false;
 
-  calView : string = 'dayGridMonth';
+ calView : string = 'dayGridMonth';
  
+  modView: boolean = false;
+
 
   @Input()
   userId: string | null= '';
@@ -98,10 +103,11 @@ priorityEvent : string ='';
   }
 
   loadCalendar(arrEvents: any[]) {
-
+    this.arrayEvents = arrEvents;
     this.calendarOptions = {
       ...this.calendarOptions,
       selectable: true,
+      initialView: this.calView,
       
 
       plugins: [dayGridPlugin, interactionPlugin],
@@ -127,8 +133,10 @@ priorityEvent : string ='';
         this.priorityEvent = info.event._def.extendedProps['priority'];
 
         this.titleEvent=info.event._def.title;
+        this.descriptionEvent=info.event._def.extendedProps['description'];
+        this.dateEvent = info.event.start;
         console.log("event");
-        console.log(info.event._def.extendedProps['eventid']);
+        console.log(info.event.start);
         const modalElement = document.getElementById('staticBackdrop2');
         if (modalElement) {
           const myModal = new Modal(modalElement);
@@ -278,23 +286,12 @@ delete(){
     return this.formSendEvent?.get(controlName)?.hasError(errorType) && this.formSendEvent.get(controlName)?.touched
 
   }
-
+changeView(view : string){
+  switch(view){
+    case 'cal': this.modView = false;
+    break;
+    case 'ev': this.modView = true;
+  }
+}
 }
 
-
-
-// @Component({
-//   selector: 'dialog-overview-example-dialog',
-//   templateUrl: 'dialog-overview-example-dialog.html',
-// })
-// export class DialogOverviewExampleDialog {
-
-//   constructor(
-//     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-//   onNoClick(): void {
-//     this.dialogRef.close();
-//   }
-
-// }
