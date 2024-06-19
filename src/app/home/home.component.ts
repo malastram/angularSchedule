@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiUserService } from '../api-user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,30 +8,25 @@ import { ApiUserService } from '../api-user.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  username :string ='';
-  userId : string = '';
+  username :string | null='';
+  userId : string | null= '';
   isLoginOk: boolean = false;
+  private subscription : Subscription | null = null;
   constructor(private _userService: ApiUserService) {
-    this.isLoginOk = this._userService.isLogged;
     this.username = this._userService.username;
     this.userId = this._userService.user_id;
   }
 
 ngOnInit(): void {
-  localStorage.getItem('login') ?  this.isLoginOk = true :  this.isLoginOk = false;
-  const user = localStorage.getItem('user');
-  this.username = user !== null ? user : '';
-  const id = localStorage.getItem('id');
-  this.userId = id !==null? id : '';
-}
-  logout() {
-    this.isLoginOk = false;
-    localStorage.removeItem('login');
-    localStorage.removeItem('user');
-    localStorage.removeItem('id');
 
-  }
-  
+  this.subscription = this._userService.isLoggedState.subscribe(
+    (newState) => {
+      this.isLoginOk = newState;
+    }
+  );
+
+}
+
 
 
 }

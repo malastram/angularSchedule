@@ -7,7 +7,14 @@ import { ApiUserService } from '../api-user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Modal} from 'bootstrap';
+//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
+// export interface DialogData {
+//   animal: string;
+//   name: string;
+// }
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
@@ -15,8 +22,11 @@ import { Router } from '@angular/router';
 })
 export class ScheduleComponent implements OnInit, AfterViewInit {
   @ViewChild('fullcalendar') fullcalendar!: FullCalendarComponent;
-
+idEvent: string ='';
+titleEvent : string ='';
+priorityEvent : string ='';
   formSendEvent: FormGroup;
+  formDelete : FormGroup;
   nextButton: HTMLCollection = document.getElementsByClassName('fc-next-button');
   prevButton: HTMLCollection = document.getElementsByClassName('fc-prev-button');
   dateSelected: string = '';
@@ -25,8 +35,12 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   calendarOptions!: CalendarOptions;
   arrayEvents: Event[] = [];
   del: Boolean =false;
+
+  calView : string = 'dayGridMonth';
+ 
+
   @Input()
-  userId: string = '';
+  userId: string | null= '';
 
   constructor(private _userService: ApiUserService, private renderer: Renderer2, private form: FormBuilder, private router: Router) {
     this.formSendEvent = this.form.group({
@@ -36,32 +50,51 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       description: [''],
       priority: ['']
     });
+
+
+
+    this.formDelete = this.form.group({
+      id: ['']
+    });
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin], // Configura los plugins aquí
-      initialView: 'dayGridMonth', // Asegúrate de que la vista inicial está definida
+      initialView: this.calView, // Asegúrate de que la vista inicial está definida
       events: [],
-      eventColor: '#378006',
+      // eventClassNames: this.getEventClassNames,
+      eventDidMount: this.handleEventDidMount.bind(this),
+
       eventMouseEnter: function(info){
-        console.dir(info.event._def.title);
-       const box = document.getElementsByClassName('fc-event-title');
-      for(let i=0; i<box.length;i++){
-        if(box[i].innerHTML ==info.event._def.title){
-          (box[i] as HTMLElement).style.fontSize ='24px';
-         // document.getElementsByClassName('fc-event-title')[i].style
-        }
-      }
+      //   console.dir(info.event._def.title);
+      //  const box = document.getElementsByClassName('fc-event-title');
+      // for(let i=0; i<box.length;i++){
+      //   if(box[i].innerHTML ==info.event._def.title){
+      //     (box[i] as HTMLElement).style.fontSize ='24px';
+      //   }
+      // }
       },
       eventMouseLeave: function(info){
-        console.dir(info.event._def.title);
-        const box = document.getElementsByClassName('fc-event-title');
-       for(let i=0; i<box.length;i++){
-         if(box[i].innerHTML ==info.event._def.title){
-           (box[i] as HTMLElement).style.fontSize ='14px';
-          // document.getElementsByClassName('fc-event-title')[i].style
-         }
-       }
+      //   console.dir(info.event._def.title);
+      //   const box = document.getElementsByClassName('fc-event-title');
+      //  for(let i=0; i<box.length;i++){
+      //    if(box[i].innerHTML ==info.event._def.title){
+      //      (box[i] as HTMLElement).style.fontSize ='14px';
+      //    }
+      //  }
       }
     };
+
+    // openDialog(): void {
+    //   const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    //     width: '250px',
+    //     data: {name: this.name, animal: this.animal}
+    //   });
+  
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     console.log('The dialog was closed');
+    //     this.animal = result;
+    //   });
+    // }
   }
 
   loadCalendar(arrEvents: any[]) {
@@ -69,23 +102,47 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     this.calendarOptions = {
       ...this.calendarOptions,
       selectable: true,
+      
 
       plugins: [dayGridPlugin, interactionPlugin],
       events: arrEvents,
       dateClick: (info) => {
         console.log("INFO: ");
+        console.dir(info.dayEl);
         this.dateSelected = info.dateStr;
         this.formSendEvent.patchValue({
-          date: this.dateSelected
-        });
+          date: this.dateSelected          
+        }
+            );
+  
+            const modalElement = document.getElementById('staticBackdrop');
+        if (modalElement) {
+          const myModal = new Modal(modalElement);
+          myModal.show();
+        }
 
       },
       eventClick: (info)=>{
-        
+        this.idEvent = info.event._def.extendedProps['eventid'];
+        this.priorityEvent = info.event._def.extendedProps['priority'];
+
+        this.titleEvent=info.event._def.title;
+        console.log("event");
+        console.log(info.event._def.extendedProps['eventid']);
+        const modalElement = document.getElementById('staticBackdrop2');
+        if (modalElement) {
+          const myModal = new Modal(modalElement);
+          myModal.show();
+        }
         this.showEvent(info);
-    }
-  }
+        this.formDelete.patchValue({
+         // date: this.dateSelected,
+          id: this.idEvent        
+        });
    
+      }
+  }
+
 
     if (this.fullcalendar) {
       this.fullcalendar.getApi().render(); // Llama al método render´
@@ -102,13 +159,6 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.nextButton[0].addEventListener('click', () => {
-      this.addCellsListeners();
-    });  //si no se hace así, this se refiere al elemento nextButton[0]
-    this.prevButton[0].addEventListener('click', () => {
-      this.addCellsListeners();
-    });
-    this.addCellsListeners();
 
 
     // Asegura que fullcalendar está inicializado
@@ -118,7 +168,8 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
 showEvent(info : EventClickArg){
-  alert(info);
+ // alert(info);
+ this.formDelete.patchValue({id:this.idEvent});
   info.jsEvent.stopPropagation();
 }
 
@@ -149,11 +200,65 @@ showEvent(info : EventClickArg){
     });
   }
 
+  getEventClassNames(arg: any) {  //modificar clases según priority
+    const priority = arg.event.extendedProps.priority;
+    return `priority-${priority}`;
+  }
+  handleEventDidMount(arg: any) {
+    const priority = arg.event.extendedProps.priority;
+    const el = arg.el as HTMLElement;
+
+    // Aplica los estilos directamente en línea
+    switch (priority) {
+      case 1:
+        el.style.backgroundColor = '#ff9999'; // Rojo claro
+        el.style.borderColor = '#ff9999';
+        break;
+      case 2:
+        el.style.backgroundColor = '#ffcc99'; // Naranja claro
+        el.style.borderColor = '#ffcc99';
+        break;
+      case 3:
+        el.style.backgroundColor = '#ff4f99'; // Amarillo claro
+        el.style.borderColor = '#ffff99';
+        break;
+      case 4:
+        el.style.backgroundColor = '#caf3a9'; // Verde claro
+        el.style.borderColor = '#ccff99';
+        break;
+      case 5:
+        el.style.backgroundColor = '#99ceff'; // Azul claro
+        el.style.borderColor = '#99ccff';
+        break;
+    }
+  }
+
+delete(){
+  console.log("los valores:   ");
+  console.log(this.formDelete);
+  console.log(this.formDelete.value['id']);
+  this._userService.deleteEvent( this.formDelete.value['id']).subscribe({
+    next: (response) => {
+      console.log('Server response:', response);
+      this.updateEvents();
+
+    },
+    error: (error) => {
+      console.error('Error send form:', error);
+      console.log('error function send()');
+    }
+});
+
+  }
+
+
+
 
   updateEvents() {
-    this._userService.getEvent(this.userId).subscribe(events => {
+    this._userService.getEvents(this.userId).subscribe(events => {
+      console.log("los eventos:   ");
+      console.log(events);
       this.loadCalendar(events);
-      console.dir(events);
     });
   }
 
@@ -178,3 +283,18 @@ showEvent(info : EventClickArg){
 
 
 
+// @Component({
+//   selector: 'dialog-overview-example-dialog',
+//   templateUrl: 'dialog-overview-example-dialog.html',
+// })
+// export class DialogOverviewExampleDialog {
+
+//   constructor(
+//     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+//   onNoClick(): void {
+//     this.dialogRef.close();
+//   }
+
+// }

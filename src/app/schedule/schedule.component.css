@@ -1,4 +1,8 @@
-.fc-direction-ltr{
+
+body > app-root > main > app-home > div > div > div.col.\36  > app-schedule > full-calendar > div.fc-view-harness.fc-view-harness-active > div > table > tbody > tr > td > div > div > div > table > tbody > tr:nth-child(1) > td.fc-day.fc-day-thu.fc-day-past.fc-day-other.fc-daygrid-day > div > div.fc-daygrid-day-events > div.fc-daygrid-event-harness > a{
+  background-color: #ff9999 !important;
+}
+  .fc-direction-ltr{
     height: 650px;
 }
 /* .fc .fc-scrollgrid-liquid{

@@ -16,6 +16,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 
 import { FullCalendarModule } from '@fullcalendar/angular'; // Importa el módulo de FullCalendar
 import { ScheduleComponent } from './schedule/schedule.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
     
 
   ],
-  providers: [ApiUserService, HttpClient, provideHttpClient(), HomeComponent],
+  providers: [ApiUserService, HttpClient, provideHttpClient(), HomeComponent, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

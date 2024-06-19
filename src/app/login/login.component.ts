@@ -34,10 +34,12 @@ export class LoginComponent {
         localStorage.setItem('user',this.formLogIn.value['username']);
         localStorage.setItem('id',response[0]['user_id']);
 
-         localStorage.getItem('login') ? this._userService.isLogged = true : this._userService.isLogged = false;
+        localStorage.getItem('login') ? this._userService.setisLogged(true) : this._userService.setisLogged(false);
 
         this._userService.setUsername(response[0]['username']);
         this._userService.setIdName(response[0]['user_id']);  //new
+        this._userService.setisLogged(true);  //new
+
 
 
         console.log(response);

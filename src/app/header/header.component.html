@@ -7,7 +7,6 @@
         <h3 class="navbar-brand">My personal schedule</h3>
       </div>
 
-
       <div id="headerMenu" class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -19,12 +18,21 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="contact">Contact</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="register">Sign-up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="login">Login</a>
-          </li>
+@if(islogged == false){
+  <li class="nav-item">
+    <a class="nav-link" routerLink="register">Sign-up</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="login">Login</a>
+  </li>
+
+}@else{
+  <li class="nav-item">
+    <p class="nav-link" (click)="logout()">Logout</p>
+  </li>
+}
+
+      
 
         </ul>
       </div>

@@ -1,7 +1,6 @@
 
         <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
 
- 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -39,3 +38,48 @@
     </div>
   </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{dateSelected}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formDelete" (ngSubmit)="delete()">
+          <div class="form-group">
+            <input  [ngClass]="" type="hidden" id="id" formControlName="id" value={{idEvent}}>
+            <!-- <input  [ngClass]="" type="hidden" id="date" formControlName="date"> -->
+            <p>{{idEvent}}: {{titleEvent}}</p>
+                       <h4>{{dateSelected}}</h4>
+                       <h5>Priority: {{priorityEvent}}</h5>
+                       <h5>Delete  {{idEvent}}?</h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+              </div>
+              
+
+      </form>
+      </div>
+    
+    </div>
+  </div>
+</div>
+<!--Modal-->
+<!-- <div>
+  <h1 mat-dialog-title>Artículo</h1>
+  <div mat-dialog-content>
+      <div style="display: flex;flex-direction: column; margin:1rem auto; max-width: 600px; padding: 1rem;">
+
+         </mat-form-field>
+
+      </div>
+  </div>
+  <div mat-dialog-actions>
+      <button mat-button (click)="">Cancelar</button> 
+       <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Confirmar</button>   </div>
+</div> -->
