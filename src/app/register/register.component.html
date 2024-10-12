@@ -6,7 +6,6 @@
                 <hr class="my-4">
                 <p class="text-center">Sign up for enjoy this app!</p>
             </div>
-
             <form [formGroup]="formSignIn" (ngSubmit)="send()">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -16,7 +15,6 @@
                     <div class="text-danger" *ngIf="usernameExists">
                         Username exists!
                     </div>
-
                     <div formGroupName="passwords">
                         <label for="pass1">Password</label>
                         <input [ngClass]="{'is-invalid': hasErrors('pass1','required')  }" type="password"
@@ -67,7 +65,6 @@
                             <input class="form-check-input" type="radio" name="gender" id="female" value="female"
                                 formControlName="gender">
                             <label class="form-check-label" for="female">Female</label>
-
                         </div>
                         <div class="col-1">
 
@@ -78,7 +75,6 @@
                         </div>
                     </div>
                     <div class="form-group my-3">
-
                         <label for="age">Age</label>
                         <input [ngClass]="" type="number" class="form-control" id="age"
                             placeholder="enter your age. . . " formControlName="age">

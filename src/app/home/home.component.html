@@ -1,21 +1,34 @@
 <div class="container">
     <div class="row">
-        <div class="col-4">
-            <app-api-prueba />
-        </div>
+
         @if(this.isLoginOk)
         {
-        <div class="col 6">
-            <h4>Hello {{username}}, {{userId}}</h4>
-            <app-schedule [userId]="userId"/>
+        <div id="userslist" class="col-3">
+            <app-api-prueba />
+        </div>
+        <div class="col-8 text-center">
+            <p class="display-3">Monthly calendar</p>
+            <p class="display-6">Hello, {{username}}</p>
+            <hr class="bg-danger border-2 border-top border-danger" />
+            <app-schedule [userId]="userId" />
         </div>
         }
         @else {
-        <div class="col 6">
-            <h4>You must login for view the content</h4>
-           
+            <div class="col-3">
+               
+            </div>   
+        <div class="col-8 ">
+            <p class="display-5">Welcome!</p>
+            <p class="display-4">If you register on our website you can...</p>
+            <ul>
+                <li><h4>Save a task list</h4></li>
+                <li><h4>View the number of completed vs. uncompleted tasks</h4></li>
+                <li><h4>Establecer la prioridad de la tarea a realizar</h4></li>
+                <li><h4>View your tasks ordered by priority or by upcoming date</h4></li>
+                <li><h4>Create a weekly calendar to establish your routines</h4></li>
+            </ul>
+
         </div>
         }
-
-
     </div>
+</div>

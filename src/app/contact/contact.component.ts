@@ -1,7 +1,4 @@
-import {
-  Component,
-
-} from '@angular/core';
+import { Component, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -10,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
-  isValid: boolean =false;
+  isValid: boolean = false;
   form1: FormGroup;
   constructor(private form: FormBuilder) {
     this.form1 = this.form.group({
@@ -18,23 +15,19 @@ export class ContactComponent {
       subject: ['', Validators.required],
       message: ['', Validators.required],
     });
-
   }
-
 
   send() {
-
-    if(this.form1.valid){
-    console.log(this.form1);
-    this.isValid=true;
-}else{
-  this.isValid=false;
-
-  alert("NO");
-}
+    if (this.form1.valid) {
+      console.log(this.form1);
+      this.isValid = true;
+    } else {
+      this.isValid = false;
+      alert("Error.");
+    }
   }
 
-  hasErrors(controlName: string, errorType: string){
+  hasErrors(controlName: string, errorType: string) {
     return this.form1.get(controlName)?.hasError(errorType) && this.form1.get(controlName)?.touched;
   }
 }

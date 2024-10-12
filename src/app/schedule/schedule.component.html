@@ -1,56 +1,77 @@
 
-<button type="button" class="btn btn-success m-2" (click)="changeView('cal')">Calendar</button>
 
-<button type="button" class="btn btn-secondary" (click)="changeView('ev')">Priority events list</button>
-       
-       @if(modView == false){
-        <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
-       }
+@if(modView == false){
+<full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+}
+@if(modView == true){
+<app-events-list [events]="arrayEvents" (percentEvents)="getPercent($event)"></app-events-list>
+}
 
-       @if(modView == true){
-        <app-events-list [events]="arrayEvents"></app-events-list>
-       }
+<div class="progressContainer">
+  <div id="progress" class="my-3">
+    <div [style.width.%]="percent.success_percentage" id="percent">
+      <h4 id="percentNumber" class="text-center my-0">{{percent.success_percentage | number:'2.0-0' }} %</h4>
+    </div>
+  </div>
+  <div class="successornot container text-center">
+    <h3 class="progressMessage">{{messageProgress}}</h3>
+    <div class="success row justify-content-center">
+      <h4 class="col-1  mx-5">Success:  </h4>
+      <h3 class="col-1">{{percent.success}}</h3>
+    
+    </div>
+    <div class="discard row justify-content-center">
+      <h4 class="col-1 mx-5">Discard:  </h4>
+      <h3 class="col-1">{{percent.discard}}</h3>
+    </div>
+  </div>
+</div>
+
+<div class="viewButtons my-3 row">
+  <button type="button" class="btn btn-success m-2 col-5 switchButton" (click)="changeView('cal')">Calendar</button>
+<button type="button" class="btn btn-secondary col-5 switchButton" (click)="changeView('ev')">Priority events list</button>
+</div>
+
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">{{dateSelected}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="formSendEvent" (ngSubmit)="send()">
-            <div class="form-group">
-              <input  [ngClass]="" type="hidden" id="id" formControlName="id">
-              <input  [ngClass]="" type="hidden" id="date" formControlName="date">
-                           <label for="Title">Title</label>
-                <input [ngClass]="{'is-invalid': hasErrors('title','required') }" type="text" class="form-control"
-                    id="title" placeholder="Event's title" formControlName="title">
-                    <label for="description">Description</label>
-                    <input [ngClass]="" type="input" class="form-control"
-                        id="description" placeholder=".......... " formControlName="description">
-                        <label for="priority">Priority</label>
-                        <input type="range" class="form-range" min="1" max="5" step="1" id="priority" [(ngModel)]="rangeValue" formControlName="priority" (input)="updateValue($event)">
-                        <span class="range-value" [ngStyle]="{'left.px': rangeValuePosition}" id="rangeValueDisplay">{{ rangeValue }}</span>
-
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
-                </div>
-                
-
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{dateSelected}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSendEvent" (ngSubmit)="send()">
+          <div class="form-group">
+            <input [ngClass]="" type="hidden" id="id" formControlName="id">
+            <input [ngClass]="" type="hidden" id="date" formControlName="date">
+            <label for="Title">Title</label>
+            <input [ngClass]="{'is-invalid': hasErrors('title','required') }" type="text" class="form-control"
+              id="title" placeholder="Event's title" formControlName="title">
+            <label for="description">Description</label>
+            <input [ngClass]="" type="input" class="form-control" id="description" placeholder=".......... "
+              formControlName="description">
+            <label for="priority">Priority</label>
+            <input type="range" class="form-range priority-{{rangeValue}}" min="1" max="5" step="1" id="priority" [(ngModel)]="rangeValue"
+              formControlName="priority" (input)="updateValue($event)">
+            <span class="range-value " [ngStyle]="{'left.px': rangeValuePosition}" id="rangeValueDisplay">   {{ rangeValue
+              }}   </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Send</button>
+          </div>
         </form>
-        </div>
-      
       </div>
     </div>
   </div>
-
+</div>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header priority-{{priorityEvent}}">
@@ -60,36 +81,19 @@
       <div class="modal-body text-center">
         <form [formGroup]="formDelete" (ngSubmit)="delete()">
           <div class="form-group">
-            <input  [ngClass]="" type="hidden" id="id" formControlName="id" value={{idEvent}}>
-            <!-- <input  [ngClass]="" type="hidden" id="date" formControlName="date"> -->
+            <input [ngClass]="" type="hidden" id="id" formControlName="id" value={{idEvent}}>
             <h3>{{titleEvent}}</h3>
             <p>{{descriptionEvent}}</p>
-                       <h4>{{dateSelected | date}}</h4>
-                       <h5>Priority: {{priorityEvent}}</h5>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-              </div>
-              
-
-      </form>
+            <h4>{{dateSelected | date}}</h4>
+            <h5>Priority: {{priorityEvent}}</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+          </div>
+        </form>
       </div>
-    
+
     </div>
   </div>
 </div>
-<!--Modal-->
-<!-- <div>
-  <h1 mat-dialog-title>Artículo</h1>
-  <div mat-dialog-content>
-      <div style="display: flex;flex-direction: column; margin:1rem auto; max-width: 600px; padding: 1rem;">
-
-         </mat-form-field>
-
-      </div>
-  </div>
-  <div mat-dialog-actions>
-      <button mat-button (click)="">Cancelar</button> 
-       <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Confirmar</button>   </div>
-</div> -->

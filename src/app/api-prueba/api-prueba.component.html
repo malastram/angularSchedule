@@ -1,23 +1,33 @@
-<div class="container">
-  <div class="row"> 
-    <div class="col my-2"><h5>List of users</h5></div>  
-    <div class="row">
-      @for (item of users; track $index) {
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">{{item.username}}</h5>
-              <h6 class="card-subtitle mb-2 text-body-secondary"> <a href="#" class="card-link">{{item.user_email}}</a>
-              </h6>
-              <p class="card-text">Country: {{item.user_country}}, city: {{item.user_city}}</p>
-  
-              <h6>Age: {{item.user_age}}, gender: {{item.user_gender}}</h6>
-            </div>
+
+<h3 class="text-center">Total users in this website: {{users?.length}}</h3>
+  <!-- The slideshow/carousel -->
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button *ngFor="let item of users; let i = index" 
+      type="button" [attr.data-bs-target]="'#carouselExampleIndicators'" [attr.data-bs-slide-to]="i" [class.active]="i === 0" aria-current="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+    </div>
+    <div class="carousel-inner">
+      <div *ngFor="let item of users; let i = index" class="carousel-item" [class.active]="i === 0">
+       <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+          <div class="card-header"> {{item.username}}</div>
+          <div class="card-body">
+            <h5 class="card-title">{{ item.user_country }}</h5>
+            <p class="card-text">{{ item.user_gender }}</p>
+            <p class="card-text">{{ item.user_email }}</p>
           </div>
-        </div>
-  
-        }
+        <div class="carousel-caption d-none d-md-block">
+                 </div>
+      
+      </div>
     </div>
- 
-    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
+    
+  

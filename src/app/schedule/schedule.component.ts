@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2, Input, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, Input } from '@angular/core';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,28 +8,32 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Modal} from 'bootstrap';
-//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Modal } from 'bootstrap';
+import { IPercent } from '../../../model/event.percent';
+import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 
-// export interface DialogData {
-//   animal: string;
-//   name: string;
-// }
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.css',
 })
+
 export class ScheduleComponent implements OnInit, AfterViewInit {
   @ViewChild('fullcalendar') fullcalendar!: FullCalendarComponent;
-idEvent: string ='';
-titleEvent : string ='';
-descriptionEvent : string = '';
-dateEvent : Date  | null = null;
+  idEvent: string = '';
+  titleEvent: string = '';
+  descriptionEvent: string = '';
+  dateEvent: Date | null = null;
+ 
+  percent: IPercent = {user_id:'',success:'',discard:'',success_percentage:''};
+//success :string = '';
+//discard: string ='';
+messageProgress : string = '';
 
-priorityEvent : string ='';
+  priorityEvent: string = '';
   formSendEvent: FormGroup;
-  formDelete : FormGroup;
+  formDelete: FormGroup;
   nextButton: HTMLCollection = document.getElementsByClassName('fc-next-button');
   prevButton: HTMLCollection = document.getElementsByClassName('fc-prev-button');
   dateSelected: string = '';
@@ -37,15 +41,11 @@ priorityEvent : string ='';
   rangeValuePosition: number = 0;
   calendarOptions!: CalendarOptions;
   arrayEvents: Event[] = [];
-  del: Boolean =false;
-
- calView : string = 'dayGridMonth';
- 
+  del: Boolean = false;
+  calView: string = 'dayGridMonth';
   modView: boolean = false;
-
-
   @Input()
-  userId: string | null= '';
+  userId: string | null = '';
 
   constructor(private _userService: ApiUserService, private renderer: Renderer2, private form: FormBuilder, private router: Router) {
     this.formSendEvent = this.form.group({
@@ -55,51 +55,23 @@ priorityEvent : string ='';
       description: [''],
       priority: ['']
     });
-
-
-
     this.formDelete = this.form.group({
       id: ['']
     });
 
     this.calendarOptions = {
-      plugins: [dayGridPlugin, interactionPlugin], // Configura los plugins aquí
+      plugins: [dayGridPlugin, interactionPlugin, bootstrap5Plugin], // Configura los plugins aquí
       initialView: this.calView, // Asegúrate de que la vista inicial está definida
-      events: [],
-      // eventClassNames: this.getEventClassNames,
+      themeSystem: 'standard',
+       events: [],
       eventDidMount: this.handleEventDidMount.bind(this),
+      eventMouseEnter: function (info) {
 
-      eventMouseEnter: function(info){
-      //   console.dir(info.event._def.title);
-      //  const box = document.getElementsByClassName('fc-event-title');
-      // for(let i=0; i<box.length;i++){
-      //   if(box[i].innerHTML ==info.event._def.title){
-      //     (box[i] as HTMLElement).style.fontSize ='24px';
-      //   }
-      // }
       },
-      eventMouseLeave: function(info){
-      //   console.dir(info.event._def.title);
-      //   const box = document.getElementsByClassName('fc-event-title');
-      //  for(let i=0; i<box.length;i++){
-      //    if(box[i].innerHTML ==info.event._def.title){
-      //      (box[i] as HTMLElement).style.fontSize ='14px';
-      //    }
-      //  }
+      eventMouseLeave: function (info) {
+
       }
     };
-
-    // openDialog(): void {
-    //   const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-    //     width: '250px',
-    //     data: {name: this.name, animal: this.animal}
-    //   });
-  
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     console.log('The dialog was closed');
-    //     this.animal = result;
-    //   });
-    // }
   }
 
   loadCalendar(arrEvents: any[]) {
@@ -108,35 +80,30 @@ priorityEvent : string ='';
       ...this.calendarOptions,
       selectable: true,
       initialView: this.calView,
-      
-
-      plugins: [dayGridPlugin, interactionPlugin],
+      plugins: [dayGridPlugin, interactionPlugin, bootstrap5Plugin],
       events: arrEvents,
       dateClick: (info) => {
         console.log("INFO: ");
         console.dir(info.dayEl);
         this.dateSelected = info.dateStr;
         this.formSendEvent.patchValue({
-          date: this.dateSelected          
+          date: this.dateSelected
         }
-            );
-  
-            const modalElement = document.getElementById('staticBackdrop');
+        );
+        const modalElement = document.getElementById('staticBackdrop');
         if (modalElement) {
           const myModal = new Modal(modalElement);
           myModal.show();
         }
-
       },
-      eventClick: (info)=>{
+      eventClick: (info) => {
         this.idEvent = info.event._def.extendedProps['eventid'];
         this.priorityEvent = info.event._def.extendedProps['priority'];
-
-        this.titleEvent=info.event._def.title;
-        this.descriptionEvent=info.event._def.extendedProps['description'];
+        this.titleEvent = info.event._def.title;
+        this.descriptionEvent = info.event._def.extendedProps['description'];
         this.dateEvent = info.event.start;
         console.log("event");
-        console.log(info.event.start);
+        console.log(info);
         const modalElement = document.getElementById('staticBackdrop2');
         if (modalElement) {
           const myModal = new Modal(modalElement);
@@ -144,43 +111,57 @@ priorityEvent : string ='';
         }
         this.showEvent(info);
         this.formDelete.patchValue({
-         // date: this.dateSelected,
-          id: this.idEvent        
+          id: this.idEvent
         });
-   
       }
-  }
-
-
+    }
     if (this.fullcalendar) {
       this.fullcalendar.getApi().render(); // Llama al método render´
     }
   }
 
-
   ngOnInit(): void {
     this.updateEvents();
+
+    this._userService.percent(this.userId).subscribe({
+      next: (response) => {
+        console.log('Server response:', response);
+        this.percent = response;
+        // this.success = response.success;
+        // this.discard = response.discard;
+        console.log('emit')
+        console.log(response)
+      },
+      error: (error) => {
+        console.error('Error send form:', error);
+        console.log('error function send()');
+      }
+    });
     //asignar datos id y date
     this.formSendEvent.patchValue({
       id: this.userId
     });
+
+if(this.percent.success_percentage!=null){
+  if(parseFloat(this.percent.success_percentage)<10){
+    this.messageProgress ='You must do more!!';
+  }else{
+    this.messageProgress ='Very good job!!';
   }
+  }
+}
 
   ngAfterViewInit(): void {
-
-
     // Asegura que fullcalendar está inicializado
     if (this.fullcalendar) {
       this.fullcalendar.getApi().render();
     }
   }
 
-showEvent(info : EventClickArg){
- // alert(info);
- this.formDelete.patchValue({id:this.idEvent});
-  info.jsEvent.stopPropagation();
-}
-
+  showEvent(info: EventClickArg) {
+    this.formDelete.patchValue({ id: this.idEvent });
+    info.jsEvent.stopPropagation();
+  }
 
   addCellsListeners(): void {
     let cells = document.getElementsByClassName("fc-day");
@@ -199,7 +180,6 @@ showEvent(info : EventClickArg){
       next: (response) => {
         console.log('Server response:', response);
         this.updateEvents();
-
       },
       error: (error) => {
         console.error('Error send form:', error);
@@ -212,10 +192,10 @@ showEvent(info : EventClickArg){
     const priority = arg.event.extendedProps.priority;
     return `priority-${priority}`;
   }
+
   handleEventDidMount(arg: any) {
     const priority = arg.event.extendedProps.priority;
     const el = arg.el as HTMLElement;
-
     // Aplica los estilos directamente en línea
     switch (priority) {
       case 1:
@@ -241,26 +221,21 @@ showEvent(info : EventClickArg){
     }
   }
 
-delete(){
-  console.log("los valores:   ");
-  console.log(this.formDelete);
-  console.log(this.formDelete.value['id']);
-  this._userService.deleteEvent( this.formDelete.value['id']).subscribe({
-    next: (response) => {
-      console.log('Server response:', response);
-      this.updateEvents();
-
-    },
-    error: (error) => {
-      console.error('Error send form:', error);
-      console.log('error function send()');
-    }
-});
-
+  delete() {
+    console.log("los valores:   ");
+    console.log(this.formDelete);
+    console.log(this.formDelete.value['id']);
+    this._userService.deleteEvent(this.formDelete.value['id']).subscribe({
+      next: (response) => {
+        console.log('Server response:', response);
+        this.updateEvents();
+      },
+      error: (error) => {
+        console.error('Error send form:', error);
+        console.log('error function send()');
+      }
+    });
   }
-
-
-
 
   updateEvents() {
     this._userService.getEvents(this.userId).subscribe(events => {
@@ -281,17 +256,21 @@ delete(){
     this.rangeValuePosition = offset;
   }
 
-
   hasErrors(controlName: string, errorType: string) {
     return this.formSendEvent?.get(controlName)?.hasError(errorType) && this.formSendEvent.get(controlName)?.touched
+  }
 
+  changeView(view: string) {
+    switch (view) {
+      case 'cal': this.modView = false;
+        break;
+      case 'ev': this.modView = true;
+    }
+    this.updateEvents();
   }
-changeView(view : string){
-  switch(view){
-    case 'cal': this.modView = false;
-    break;
-    case 'ev': this.modView = true;
+
+  getPercent(val: IPercent) {
+    this.percent = val;
   }
-}
 }
 

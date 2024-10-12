@@ -1,0 +1,78 @@
+<div id="calendar">
+<h1>{{username}}'s daily calendar</h1>
+<full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{startHour }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSendEvent" (ngSubmit)="send()">
+          <div class="form-group">
+            <input [ngClass]="" type="hidden" id="id" formControlName="id">
+            <input [ngClass]="" type="hidden" id="start" formControlName="start">
+            <label for="end">Ends:</label>
+
+            <input [ngClass]="{'is-invalid': hasErrors('endTime','required') }" type="time" step="3600000" min={{startHour}}
+              class="form-control" id="end" formControlName="endTime" [(ngModel)]="selectedTime"
+              (change)="validateTime()">
+            <div *ngIf="isInvalidTime" style="color: red;">
+              {{errorMessage}}
+            </div>
+
+            <label for="Title">Title</label>
+            <input [ngClass]="{'is-invalid': hasErrors('title','required') }" type="text" class="form-control"
+              id="title" placeholder="Event's title" formControlName="title">
+              <div *ngIf="hasErrors('title','required')" style="color: red;">
+               Title required.
+              </div>
+            <label for="description">Description</label>
+            <input [ngClass]="" type="input" class="form-control" id="description" placeholder=".......... "
+              formControlName="description">
+            <label for="priority">Priority</label>
+            <input type="range" class="form-range priority-{{rangeValue}}" min="1" max="5" step="1" id="priority"
+              [(ngModel)]="rangeValue" formControlName="priority" (input)="updateValue($event)">
+            <span class="range-value " [ngStyle]="{'left.px': rangeValuePosition}" id="rangeValueDisplay"> {{ rangeValue
+              }} </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal delete -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{eventSelected }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSendEvent" (ngSubmit)="delete()">
+          <div class="form-group">
+            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" id="submit">Delete</button>
+           </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="download m-3"><input type="button" class="btn btn-primary" (click)="download()" value="Download calendar"></div>

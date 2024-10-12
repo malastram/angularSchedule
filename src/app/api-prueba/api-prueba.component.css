@@ -1,0 +1,14 @@
+.card-body{
+    width: 80%;
+    
+}
+
+.card{
+  align-items: center;
+  height: 200px;
+}
+
+.card-header{
+    width: 100%;
+}
+

@@ -4,11 +4,11 @@
         <input [ngClass]="{'is-invalid': hasErrors('username','required') }" type="text" class="form-control"
             id="username" placeholder="username . . . " formControlName="username">
         <div class="text-danger" *ngIf="hasErrors('username', 'required')">Username required</div>
-            <label for="password">Password</label>
-            <input [ngClass]="{'is-invalid': hasErrors('password','required')  }" type="password" class="form-control"
-                id="password" placeholder=".......... " formControlName="password">
-            <div class="text-danger" *ngIf="hasErrors('password','required')">Password required</div>
-        </div>
+        <label for="password">Password</label>
+        <input [ngClass]="{'is-invalid': hasErrors('password','required')  }" type="password" class="form-control"
+            id="password" placeholder=".......... " formControlName="password">
+        <div class="text-danger" *ngIf="hasErrors('password','required')">Password required</div>
+    </div>
     <div class="form-group my-3">
         <button type="submit" class="btn btn-primary mb-2">Send</button>
     </div>

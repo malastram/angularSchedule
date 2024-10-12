@@ -7,26 +7,23 @@ import { Subscription } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
-  username :string | null='';
-  userId : string | null= '';
+
+export class HomeComponent implements OnInit {
+  username: string | null = '';
+  userId: string | null = '';
   isLoginOk: boolean = false;
-  private subscription : Subscription | null = null;
+  private subscription: Subscription | null = null;
   constructor(private _userService: ApiUserService) {
     this.username = this._userService.username;
     this.userId = this._userService.user_id;
   }
 
-ngOnInit(): void {
-
-  this.subscription = this._userService.isLoggedState.subscribe(
-    (newState) => {
-      this.isLoginOk = newState;
-    }
-  );
-
-}
-
-
+  ngOnInit(): void {
+    this.subscription = this._userService.isLoggedState.subscribe(
+      (newState) => {
+        this.isLoginOk = newState;
+      }
+    );
+  }
 
 }

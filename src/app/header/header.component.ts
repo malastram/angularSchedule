@@ -1,6 +1,5 @@
 import { Component, OnInit, input } from '@angular/core';
 import { ApiUserService } from '../api-user.service';
-import { Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
@@ -10,19 +9,13 @@ import { Subscription } from 'rxjs';
 
 export class HeaderComponent implements OnInit {
   islogged: boolean = false;
-  private subscription : Subscription | null = null;
-
+  private subscription: Subscription | null = null;
   constructor(private _userService: ApiUserService) {
-  
   }
-  ngOnInit(): void {
 
-   this.subscription = this._userService.isLoggedState.subscribe((newState) =>
-   { this.islogged = newState}
-  );
-  }
-  ngOnChanges(): void {
- 
+  ngOnInit(): void {
+    this.subscription = this._userService.isLoggedState.subscribe((newState) => { this.islogged = newState }
+    );
   }
 
   logout() {

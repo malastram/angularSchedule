@@ -6,7 +6,6 @@ import { IUser } from '../../../model/user.model';
 import { ApiPruebaComponent } from '../api-prueba/api-prueba.component';
 import { debounceTime, switchMap } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -53,14 +52,11 @@ export class RegisterComponent {
         this._userService.addUser(formData).subscribe({
           next: (response) => {
             console.log('Server response:', response);
-            // Llama a la función proporcionada después de un registro exitoso
             this.regenerarHome.loadUsers();
-
           },
           error: (error) => {
             console.error('Error send form:', error);
             console.log('error function adduser');
-            //alert('There was an error in retrieving data from the server');
           }
         });
       } else {
@@ -73,7 +69,6 @@ export class RegisterComponent {
 
   hasErrors(controlName: string, errorType: string) {
     return this.formSignIn.get(controlName)?.hasError(errorType) && this.formSignIn.get(controlName)?.touched
-
   }
 
   ngOnInit(): void {
@@ -85,7 +80,5 @@ export class RegisterComponent {
       this.usernameExists = users.some(user => user.username === username);
     });
   }
-  onSubmit() {
 
-  }
 }

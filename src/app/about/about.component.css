@@ -3,11 +3,13 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    background-color: rgb(202, 194, 194) !important;
+    /* background-color: rgb(202, 194, 194) !important; */
     padding: 50px;
     margin-top: 15px;
-
+    margin:0 auto;
+width: 80%;
 }
+
 
 img {
     width: 30%;
@@ -22,7 +24,7 @@ i {
 #presentation,
 #tecnologies {
     margin-bottom: 50px;
-    background-color: rgb(212, 204, 204);
+    background-color: rgb(248, 242, 242);
     /* border: 2px solid black; */
     border-radius: 20px;
     padding: 40px;

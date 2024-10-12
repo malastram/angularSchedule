@@ -1,36 +1,101 @@
-
-body > app-root > main > app-home > div > div > div.col.\36  > app-schedule > full-calendar > div.fc-view-harness.fc-view-harness-active > div > table > tbody > tr > td > div > div > div > table > tbody > tr:nth-child(1) > td.fc-day.fc-day-thu.fc-day-past.fc-day-other.fc-daygrid-day > div > div.fc-daygrid-day-events > div.fc-daygrid-event-harness > a{
+body>app-root>main>app-home>div>div>div.col.\36>app-schedule>full-calendar>div.fc-view-harness.fc-view-harness-active>div>table>tbody>tr>td>div>div>div>table>tbody>tr:nth-child(1)>td.fc-day.fc-day-thu.fc-day-past.fc-day-other.fc-daygrid-day>div>div.fc-daygrid-day-events>div.fc-daygrid-event-harness>a {
   background-color: #ff9999 !important;
 }
-  .fc-direction-ltr{
-    height: 650px;
-}
-/* .fc .fc-scrollgrid-liquid{
-    background-color: lightcyan;
 
+.fc-direction-ltr {
+  height: 650px;
+}
+
+/* .fc .fc-col-header-cell-cushion {
+  text-decoration: none;
 } */
 
-.fc .fc-col-header-cell-cushion{
-        text-decoration: none;
-}
 .priority-1 {
-  background-color: #ff9999; 
-    border-color: #ff9999;
- }
- .priority-2 {
-   background-color: #ffcc99; 
-     border-color: #ffcc99;
-  }
-  .priority-3 {
-   background-color: #ff4f99; 
-     border-color: #ffff99;
-  }
-  .priority-4 {
-   background-color: #caf3a9; 
-     border-color: #ccff99;
-  }
-  .priority-5 {
-   background-color: #99ceff; 
-     border-color: #99ccff;
-  }
- 
+  background-color: #ff9999;
+  border-color: #ff9999;
+}
+
+.priority-2 {
+  background-color: #ffcc99;
+  border-color: #ffcc99;
+}
+
+.priority-3 {
+  background-color: #ff4f99;
+  border-color: #ffff99;
+}
+
+.priority-4 {
+  background-color: #caf3a9;
+  border-color: #ccff99;
+}
+
+.priority-5 {
+  background-color: #99ceff;
+  border-color: #99ccff;
+}
+
+#progress {
+  border: solid 1px black;
+  border-radius: 25px;
+}
+
+#percent {
+  background-color: #ccff99;
+  width: 80%;
+  height: 50px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+justify-content: center;
+margin: 2px;
+border-radius: 25px;
+
+
+}
+
+#percent>h4 {
+  margin: 0;
+
+}
+
+.successornot{
+  background-color: rgb(255 250 223)
+  ;
+  border: solid 1px black;
+  border-radius: 10px;
+}
+
+.success, .discard{
+  margin: 10px;
+}
+
+.form-range{
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.switchButton{
+  margin: 5px !important;
+}
+
+.viewButtons{
+  margin: 0;
+  justify-content: space-around;
+}
+
+ .fc-daygrid-day-number{
+  text-decoration: none !important;
+
+} 
+ /* .fc-col-header-cell-cushion{ */
+a{
+ text-decoration: none !important;
+}
+
+#percentNumber{
+  font-weight: bolder;
+  margin:25px;
+overflow:auto ;
+}
+

@@ -18,7 +18,8 @@ import { FullCalendarModule } from '@fullcalendar/angular'; // Importa el módul
 import { ScheduleComponent } from './schedule/schedule.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EventsListComponent } from './events-list/events-list.component';
-
+import { DailyScheduleComponent } from './daily-schedule/daily-schedule.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { EventsListComponent } from './events-list/events-list.component';
     LoginComponent,
     ApiPruebaComponent,
     ScheduleComponent,
-    EventsListComponent
+    EventsListComponent,
+    DailyScheduleComponent,
+    FooterComponent
     
     
    
